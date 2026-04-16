@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl"
+       version="1.0"
+       class="in-text"
+       default-locale="en-GB">
+
+  <info>
+    <title>University of Johannesburg Harvard</title>
+    <id>http://www.zotero.org/styles/uj-harvard</id>
+
+    <link href="http://www.zotero.org/styles/uj-harvard" rel="self"/>
+    <link href="https://www.uj.ac.za" rel="documentation"/>
+
+    <author>
+      <name>University of Johannesburg</name>
+    </author>
+
+    <category citation-format="author-date"/>
+    <summary>University of Johannesburg Harvard referencing style</summary>
+    <updated>2026-04-16T00:00:00+00:00</updated>
+  </info>
+
+  <!-- AUTHORS -->
+
+  <macro name="author-short">
+    <names variable="author">
+      <name form="short" and="symbol" et-al-min="3" et-al-use-first="1"/>
+      <et-al term="et-al"/>
+    </names>
+  </macro>
+
+  <macro name="author-full">
+    <names variable="author">
+      <name name-as-sort-order="all"
+            sort-separator=", "
+            initialize="true"
+            initialize-with=". "
+            and="symbol"/>
+    </names>
+  </macro>
+
+  <!-- YEAR -->
+
+  <macro name="year">
+    <date variable="issued">
+      <date-part name="year"/>
+    </date>
+  </macro>
+
+  <!-- TITLES -->
+
+  <macro name="title">
+    <text variable="title" text-case="sentence"/>
+  </macro>
+
+  <macro name="title-italic">
+    <text variable="title" font-style="italic" text-case="sentence"/>
+  </macro>
+
+  <!-- JOURNAL -->
+
+  <macro name="journal">
+    <group>
+      <text variable="container-title" font-style="italic" suffix=", "/>
+      <text variable="volume"/>
+      <group prefix="(" suffix=")">
+        <text variable="issue"/>
+      </group>
+      <text variable="page" prefix=": "/>
+    </group>
+  </macro>
+
+  <!-- PUBLISHER -->
+
+  <macro name="publisher">
+    <group delimiter=": ">
+      <text variable="publisher-place"/>
+      <text variable="publisher"/>
+    </group>
+  </macro>
+
+  <!-- ACCESS -->
+
+  <macro name="access">
+    <choose>
+      <if variable="DOI">
+        <text variable="DOI" prefix=" Available from: DOI:"/>
+      </if>
+      <else-if variable="URL">
+        <group prefix=" Available from: ">
+          <text variable="URL"/>
+        </group>
+      </else-if>
+    </choose>
+  </macro>
+
+  <!-- WEBSITE -->
+
+  <macro name="web">
+    <group>
+      <text variable="title" font-style="italic" text-case="sentence" suffix=". "/>
+      <group prefix="Available from: ">
+        <text variable="URL"/>
+      </group>
+      <group prefix=" (" suffix=")">
+        <text term="accessed" text-case="capitalize-first"/>
+        <date variable="accessed" prefix=" " delimiter=" ">
+          <date-part name="day"/>
+          <date-part name="month"/>
+          <date-part name="year"/>
+        </date>
+      </group>
+    </group>
+  </macro>
+
+  <!-- CHAPTER -->
+
+  <macro name="chapter">
+    <group>
+      <text variable="title" text-case="sentence" suffix=". "/>
+      <text term="in" text-case="capitalize-first" suffix=" "/>
+      <text variable="container-title" font-style="italic" suffix=": "/>
+      <text variable="page" suffix=". "/>
+      <text value="Edited by "/>
+      <names variable="editor">
+        <name name-as-sort-order="all"
+              sort-separator=", "
+              initialize="true"
+              initialize-with=". "
+              and="symbol"/>
+      </names>
+    </group>
+  </macro>
+
+  <!-- EDITOR LABEL -->
+
+  <macro name="editor-label">
+    <names variable="editor">
+      <label form="short" prefix=" (" suffix=")." plural="contextual"/>
+    </names>
+  </macro>
+
+  <!-- THESIS -->
+
+  <macro name="thesis">
+    <group>
+      <text variable="title" font-style="italic" text-case="sentence" suffix=". "/>
+      <text variable="genre" suffix=". "/>
+      <text variable="publisher"/>
+    </group>
+  </macro>
+
+  <!-- IN-TEXT -->
+
+  <citation>
+    <layout prefix="(" suffix=")" delimiter="; ">
+      <group delimiter=", ">
+        <text macro="author-short"/>
+        <text macro="year"/>
+        <text variable="locator" prefix=":"/>
+      </group>
+    </layout>
+  </citation>
+
+  <!-- BIBLIOGRAPHY -->
+
+  <bibliography hanging-indent="true">
+    <sort>
+      <key variable="author"/>
+      <key variable="issued"/>
+    </sort>
+
+    <layout suffix=".">
+
+      <!-- AUTHOR + YEAR -->
+      <group delimiter=" ">
+        <text macro="author-full"/>
+        <group prefix="(" suffix=").">
+          <text macro="year"/>
+        </group>
+      </group>
+
+      <choose>
+
+        <!-- JOURNAL -->
+        <if type="article-journal">
+          <text macro="title" prefix=" " suffix=". "/>
+          <text macro="journal"/>
+          <text macro="access"/>
+        </if>
+
+        <!-- BOOK -->
+        <else-if type="book">
+          <choose>
+            <if variable="editor">
+              <text macro="author-full"/>
+              <text macro="editor-label"/>
+            </if>
+            <else>
+              <text macro="author-full"/>
+            </else>
+          </choose>
+          <text macro="title-italic" prefix=" " suffix=". "/>
+          <text macro="publisher"/>
+        </else-if>
+
+        <!-- CHAPTER -->
+        <else-if type="chapter">
+          <text macro="chapter" prefix=" " suffix=". "/>
+          <text macro="publisher"/>
+        </else-if>
+
+        <!-- REPORT -->
+        <else-if type="report">
+          <text macro="title" prefix=" " suffix=". "/>
+          <text macro="publisher"/>
+        </else-if>
+
+        <!-- THESIS -->
+        <else-if type="thesis">
+          <text macro="thesis" prefix=" "/>
+        </else-if>
+
+        <!-- WEBSITE -->
+        <else-if type="webpage">
+          <text macro="web" prefix=" "/>
+        </else-if>
+
+        <!-- DEFAULT -->
+        <else>
+          <text macro="title" prefix=" "/>
+        </else>
+
+      </choose>
+
+    </layout>
+  </bibliography>
+
+</style>
