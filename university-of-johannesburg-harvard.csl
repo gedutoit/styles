@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl"
+       version="1.0"
+       class="in-text"
+       default-locale="en-GB">
+
+  <info>
+    <title>University of Johannesburg Harvard</title>
+    <id>http://www.zotero.org/styles/university-of-johannesburg-harvard</id>
+    <link href="http://www.zotero.org/styles/harvard1" rel="independent-parent"/>
+    <link href="https://www.uj.ac.za" rel="documentation"/>
+    <author>
+      <name>University of Johannesburg</name>
+    </author>
+    <category citation-format="author-date"/>
+    <category field="generic-base"/>
+    <updated>2026-04-23T00:00:00+00:00</updated>
+  </info>
+
+  <!-- AUTHORS -->
+  <macro name="author-short">
+    <names variable="author" et-al-min="3" et-al-use-first="1">
+      <name form="short" and="symbol"/>
+      <et-al term="et-al"/>
+    </names>
+  </macro>
+
+  <macro name="author-full">
+    <names variable="author">
+      <name name-as-sort-order="all"
+            sort-separator=", "
+            initialize="true"
+            initialize-with=". "
+            and="symbol"/>
+    </names>
+  </macro>
+
+  <!-- YEAR + LOCATOR -->
+  <macro name="year-locator">
+    <group>
+      <date variable="issued">
+        <date-part name="year"/>
+      </date>
+      <text variable="locator" prefix=":"/>
+    </group>
+  </macro>
+
+  <macro name="year">
+    <date variable="issued">
+      <date-part name="year"/>
+    </date>
+  </macro>
+
+  <!-- TITLES -->
+  <macro name="title">
+    <text variable="title" text-case="sentence"/>
+  </macro>
+
+  <macro name="title-italic">
+    <text variable="title" font-style="italic" text-case="sentence"/>
+  </macro>
+
+  <!-- EDITOR LABEL -->
+  <macro name="editor-label">
+    <names variable="editor">
+      <label form="short" prefix=" (" suffix=")" plural="contextual"/>
+    </names>
+  </macro>
+
+  <!-- JOURNAL -->
+  <macro name="journal">
+    <group>
+      <text macro="author-full" suffix=" "/>
+      <group prefix="(" suffix=").">
+        <text macro="year"/>
+      </group>
+      <text macro="title" prefix=" " suffix=". "/>
+      <text variable="container-title" font-style="italic" suffix=", "/>
+      <text variable="volume"/>
+      <group prefix="(" suffix=")">
+        <text variable="issue"/>
+      </group>
+      <text variable="page" prefix=": " suffix=". "/>
+      <text variable="doi" prefix="Available from: DOI:"/>
+    </group>
+  </macro>
+
+  <!-- BOOK -->
+  <macro name="book">
+    <group>
+      <text macro="author-full" suffix=" "/>
+      <group prefix="(" suffix=").">
+        <text macro="year"/>
+      </group>
+      <text macro="title-italic" prefix=" " suffix=". "/>
+      <group>
+        <text variable="publisher-place"/>
+        <text variable="publisher" prefix=": " suffix="."/>
+      </group>
+    </group>
+  </macro>
+
+  <!-- EDITED BOOK -->
+  <macro name="edited-book">
+    <group>
+      <names variable="editor">
+        <name name-as-sort-order="all"
+              sort-separator=", "
+              initialize="true"
+              initialize-with=". "
+              and="symbol"/>
+      </names>
+      <text macro="editor-label"/>
+      <group prefix=" (" suffix=").">
+        <text macro="year"/>
+      </group>
+      <text macro="title-italic" prefix=" " suffix=". "/>
+      <group>
+        <text variable="publisher-place"/>
+        <text variable="publisher" prefix=": " suffix="."/>
+      </group>
+    </group>
+  </macro>
+
+  <!-- CHAPTER -->
+  <macro name="chapter">
+    <group>
+      <text macro="author-full" suffix=" "/>
+      <group prefix="(" suffix=").">
+        <text macro="year"/>
+      </group>
+      <text macro="title" prefix=" " suffix=". "/>
+      <text term="in" text-case="capitalize-first" suffix=" "/>
+      <text variable="container-title" font-style="italic"/>
+      <text variable="page" prefix=": " suffix=". "/>
+      <text value="Edited by "/>
+      <names variable="editor">
+        <name name-as-sort-order="all"
+              sort-separator=", "
+              initialize="true"
+              initialize-with=". "
+              and="symbol"/>
+      </names>
+      <group prefix=". ">
+        <text variable="publisher-place"/>
+        <text variable="publisher" prefix=": " suffix="."/>
+      </group>
+    </group>
+  </macro>
+
+  <!-- WEBSITE -->
+  <macro name="web">
+    <group>
+      <text macro="author-full" suffix=" "/>
+      <group prefix="(" suffix=").">
+        <text macro="year"/>
+      </group>
+      <text macro="title" prefix=" " suffix=". "/>
+      <group prefix="Available from: ">
+        <text variable="URL"/>
+      </group>
+      <group prefix=" (" suffix=")">
+        <text term="accessed" text-case="capitalize-first"/>
+        <date variable="accessed" prefix=" " delimiter=" ">
+          <date-part name="day"/>
+          <date-part name="month"/>
+          <date-part name="year"/>
+        </date>
+      </group>
+    </group>
+  </macro>
+
+  <!-- IN-TEXT CITATIONS -->
+  <citation>
+    <layout delimiter="; ">
+      <choose>
+        <!-- Narrative -->
+        <if position="narrative">
+          <group delimiter=" ">
+            <text macro="author-short"/>
+            <group prefix="(" suffix=")">
+              <text macro="year-locator"/>
+            </group>
+          </group>
+        </if>
+
+        <!-- Parenthetical -->
+        <else>
+          <group prefix="(" suffix=")" delimiter=", ">
+            <text macro="author-short"/>
+            <text macro="year-locator"/>
+          </group>
+        </else>
+      </choose>
+    </layout>
+  </citation>
+
+  <!-- BIBLIOGRAPHY -->
+  <bibliography hanging-indent="true">
+    <sort>
+      <key variable="author"/>
+      <key variable="issued"/>
+    </sort>
+
+    <layout>
+
+      <choose>
+
+        <!-- JOURNAL -->
+        <if type="article-journal">
+          <text macro="journal"/>
+        </if>
+
+        <!-- CHAPTER -->
+        <else-if type="chapter">
+          <text macro="chapter"/>
+        </else-if>
+
+        <!-- BOOK -->
+        <else-if type="book">
+          <choose>
+            <if variable="editor">
+              <text macro="edited-book"/>
+            </if>
+            <else>
+              <text macro="book"/>
+            </else>
+          </choose>
+        </else-if>
+
+        <!-- WEBSITE -->
+        <else-if type="webpage">
+          <text macro="web"/>
+        </else-if>
+
+        <!-- DEFAULT -->
+        <else>
+          <text macro="book"/>
+        </else>
+
+      </choose>
+
+    </layout>
+  </bibliography>
+
+</style>
